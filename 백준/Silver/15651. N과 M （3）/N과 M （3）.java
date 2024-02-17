@@ -2,46 +2,48 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    // 클래스 및 변수 선언
     static StringBuilder sb = new StringBuilder();
+    static int N,M;
+    static int[] selected;
+
+    //입력 처리 메서드. FastReader 클래스를 이용하여 빠르게 입력받습니다.
     static void input() {
         FastReader scan = new FastReader();
         N = scan.nextInt();
         M = scan.nextInt();
         selected = new int[M + 1];
     }
-    static int N,M;
-    static int[] selected;
-
+ 
+    
+    //백트래킹을 이용하여 순열을 생성하는 재귀 함수입니다.
+    //현재 인덱스 k가 M + 1이면, 선택된 숫자를 출력하고 함수를 종료합니다.
+    //그렇지 않으면 1부터 N까지의 숫자를 선택하고 재귀 호출합니다.
     static void recursive_function(int k) {
         if (k == M + 1) {
-            // 배열을 1자리부터 M자리까지 다 찾았을 때
-            // selected에 찾아서 저장한 결과를 출력
+    
             for (int i=1; i<=M; i++) sb.append(selected[i]).append(' ');
             sb.append('\n');
         } else {
-            // k번째 원소에 1~N까지 원소가 차례대로 들어올 수 있다.
             for (int cand = 1; cand <= N; cand++) {
                 selected[k] = cand;
-                // k+1번 ~ M번을 모두 탐색하기 위해 재귀호출
                 recursive_function(k+1);
-                // 탐색이 끝난 나음에 k번째 기록을 남겨둘 필요가 없기때문에 의례상 지워준다
+                // 탐색이 끝난 나음에 k번째 기록을 남겨둘 필요가 없기 때문에 의례상 지워준다
                 selected[k] = 0;
             }
         }
     }
 
-
-
+    // 메인 함수
+    // 입력받는 함수 input을 호출하고, 문제 푸는 함수 recursive_function를 호출합니다.
     public static void main(String[] args) {
-        //메인은 크게 입력받는 함수와 문제푸는 함수로 심플하게 나눔
         input(); // 입력을 받는 함수
-
         recursive_function(1); // 문제를 푸는 함수
         System.out.println(sb.toString());
     }
 
-
-    //패스트리더 구현
+    // 입력을 빠르게 처리하는 FastReader클래스
+    // BufferedReader 및 StringTokenizer을 이용하여 빠르게 입력을 처리하는 클래스입니다.
     static class FastReader{
         BufferedReader br;
         StringTokenizer st;
@@ -65,10 +67,5 @@ public class Main {
         public int nextInt() {
             return Integer.parseInt(next());
         }
-
-
-
     }
-
-
 }
